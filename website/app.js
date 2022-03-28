@@ -8,6 +8,13 @@ zip = 60614;
 // const zip = document.getElementById("zip").value;
 // console.log ("zip: ", zip);
 
+
+// TODOs
+// Dynamically add content to the webpage (from the most recent entry)
+// Add listener to the generate button which runs the chained promises 
+// add additional HTML elements which have previous day's zip, temperature and feelings 
+// Style the HTML page 
+
 // functions
 async function getCoords(zip, apiKey, geoBaseUrl) { 
     // function to convert zip into lat an long using openweathermap.org
@@ -67,11 +74,29 @@ async function postData ( url = '', data = {}) {
     } catch(error) {
         console.log("error: ", error);
     }    
-}    
+}
+
+async function getData (url = "") {
+    // get request to fetch all app data
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    try {
+        const projectData = await response.json()
+        console.log('GET data: ', projectData);
+    }
+    catch(error) {
+        console.log("error: ", error)
+    }
+}
 
 // chained promises
 getCoords(zip, apiKey, geoBaseUrl) // 1. get the coordinates corresponding to zip
 .then(coords => getCoordWeather(coords.lat, coords.lon, apiKey, baseUrl)) // 2. pass lat and long to get weather data
 .then(weatherData => createEntry(weatherData.dt, weatherData.main.temp, "dummy_content")) // 3. collate the new entry
-.then(newEntry => postData('/addEntry', newEntry)); // 4. pass weather data & user content to server to log
-
+.then(newEntry => postData('/addEntry', newEntry)) // 4. pass weather data & user content to server to log
+.then(function() {getData('./getData');});

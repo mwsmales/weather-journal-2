@@ -25,7 +25,7 @@ function listening () {
 // refer local server to app files
 app.use(express.static('website'));
 
-// post route for writing to endpoint
+// POST route for writing to endpoint
 app.post('/addEntry', addEntry );
 
 function addEntry (req, res) {
@@ -34,3 +34,9 @@ function addEntry (req, res) {
     projectData['data'].push(req.body);
     console.log("project data:",projectData);
 }
+
+
+// GET route for returning data from endpoint
+app.get('/getData', function (req, res) {
+    res.send(projectData)
+});
