@@ -6,9 +6,9 @@ const apiKey = "373b3c94ddd7cced9679c7abb6cfcdf2&units=imperial";
 // TODO replace zip with user input from page 
 const zip = "60614"
 
-getCoords(zip, apiKey)
-.then(geoData => getCoordWeather(geoData.lat, geoData.lon, apiKey))
-.then(data => console.log(data.main.temp))
+getCoords(zip, apiKey) // get the coordinates
+.then(coords => getCoordWeather(coords.lat, coords.lon, apiKey)) // pass lat and long to get weather data
+.then(weatherData => postData('/addEntry', {"date": weatherData.dt, "temp": weatherData.main.temp, "content": "abc"})); // pass weather data to server to log
 
 
 async function getCoords(zip, apiKey) { 
@@ -34,7 +34,7 @@ async function getCoordWeather(lat, lon, apiKey) {
         return(data);
     }
     catch (error) {
-        console.log("error", error);
+        console.log("error: ", error);
     }
 }
 
@@ -52,10 +52,9 @@ async function postData ( url = '', data = {}) {
     });
     
     try {
-        console.log(response.json());
+        const responseData = await response.json();
+        console.log("post response: ", responseData);
     } catch(error) {
-        console.log("error", error);
+        console.log("error: ", error);
     }
 }
-
-postData('/addEntry', {answer:42});
