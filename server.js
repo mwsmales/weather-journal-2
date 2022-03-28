@@ -1,3 +1,7 @@
+/* initialize project data */
+projectData = {};
+projectData['data'] = []; //create a list to entries
+
 /* set up express to run local server and routes */
 const express = require('express');
 const app = express();
@@ -20,3 +24,13 @@ function listening () {
 
 // refer local server to app files
 app.use(express.static('website'));
+
+// post route for writing to endpoint
+app.post('/addEntry', addEntry );
+
+function addEntry (req, res) {
+    res.send(JSON.stringify('POST received'));
+    console.log("data received:", req.body);
+    projectData['data'].push(req.body);
+    console.log("project data:",projectData);
+}
