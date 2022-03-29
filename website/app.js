@@ -4,9 +4,11 @@ const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const geoBaseUrl = "http://api.openweathermap.org/geo/1.0/zip?";
 
 // TODOs
+// return the newentry data so that 
 // Dynamically add content to the webpage (from the most recent entry)
 // Style the HTML page
 // add additional HTML elements which have previous day's zip, temperature and feelings
+// sort out the arrow functions: understand how parameters are passed from one then statement to the next
 
 // global variables
 let zip = ""; 
@@ -28,8 +30,9 @@ function generateEntry() {
     feelings = document.getElementById('feelings').value;
     console.log('user feelings: ', feelings);
     // execute chained promises: openweathermaps API call, server POST, then server GET
-    // chained promises
     chainedPromises(zip, feelings, apiKey, geoBaseUrl, baseUrl);
+    // dynamically add content to webpage
+
 };
 
 
@@ -39,9 +42,17 @@ async function chainedPromises(zip, feelings, apiKey, geoBaseUrl, baseUrl) {
     .then(weatherData => createEntry(weatherData.dt, weatherData.main.temp, feelings)) // 3. collate the new entry
     .then(newEntry => postData('/addEntry', newEntry)) // 4. pass weather data & user content to server to log
     .then(function() {
-        getData('./getData');
-    }); //5. get the updated data object from the server
+        return(getData('./getData'));
+    }) //5. get the updated data object from the server
+    .then(projectData => updateUI(projectData)); // 6. Update page with updated data
 } 
+
+
+function updateUI(projectData) {
+    document.getElementById('date').innerHTML = projectData['data'][projectData['data'].length-1]['date'];
+    document.getElementById('temp').innerHTML = projectData['data'][projectData['data'].length-1]['temp'];
+    document.getElementById('content').innerHTML = projectData['data'][projectData['data'].length-1]['content'];
+}
 
 
 // functions
@@ -61,7 +72,7 @@ async function getCoords(zip, apiKey, geoBaseUrl) {
 
 async function getCoordWeather(lat, lon, apiKey, baseUrl) {
     // function to get the current weather based on latitude and longitude
-    console.log("running 2nd function", lat, lon)
+    console.log("running 2nd weather api call with coords", lat, lon)
     const res = await fetch(`${baseUrl}lat=${lat}&lon=${lon}&appid=${apiKey}`);
     try {
         const data = await res.json();
@@ -117,6 +128,7 @@ async function getData (url = "") {
     try {
         const projectData = await response.json()
         console.log('GET data: ', projectData);
+        return(projectData);
     }
     catch(error) {
         console.log("error: ", error)
