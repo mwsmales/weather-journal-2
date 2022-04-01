@@ -4,8 +4,8 @@ const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const geoBaseUrl = "http://api.openweathermap.org/geo/1.0/zip?";
 
 // TODOs
-// return the newentry data so that 
 // Dynamically add content to the webpage (from the most recent entry)
+// convert the unix timestamp from the API to a javascript date object
 // Style the HTML page
 // add additional HTML elements which have previous day's zip, temperature and feelings
 // sort out the arrow functions: understand how parameters are passed from one then statement to the next
@@ -47,14 +47,6 @@ async function chainedPromises(zip, feelings, apiKey, geoBaseUrl, baseUrl) {
     .then(projectData => updateUI(projectData)); // 6. Update page with updated data
 } 
 
-
-function updateUI(projectData) {
-    document.getElementById('date').innerHTML = projectData['data'][projectData['data'].length-1]['date'];
-    document.getElementById('temp').innerHTML = projectData['data'][projectData['data'].length-1]['temp'];
-    document.getElementById('content').innerHTML = projectData['data'][projectData['data'].length-1]['content'];
-}
-
-
 // functions
 async function getCoords(zip, apiKey, geoBaseUrl) { 
     // function to convert zip into lat an long using openweathermap.org
@@ -85,7 +77,8 @@ async function getCoordWeather(lat, lon, apiKey, baseUrl) {
 }
 
 
-function createEntry  (date, temp, userContent) {
+function createEntry  (unixDate, temp, userContent) {
+    const date = new Date(unixDate * 1000); // convert API unix date
     const newEntry = {
         "date": date,
         "temp": temp,
@@ -136,3 +129,14 @@ async function getData (url = "") {
 }
 
 
+function updateUI(projectData) {
+    // update the UI with the most recent entry in the projectData array
+    const projectDataLength = projectData['data'].length;
+    const date = projectData['data'][projectDataLength-1]['date'];
+    const temp = projectData['data'][projectDataLength-1]['temp'];
+    const content = projectData['data'][projectDataLength-1]['content'];
+    console.log(date);
+    document.getElementById('date').innerHTML = `Date: ${date}`;
+    document.getElementById('temp').innerHTML = `Temp: ${temp}`;
+    document.getElementById('content').innerHTML = `Your feelings: ${content}`;
+}

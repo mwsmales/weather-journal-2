@@ -18,7 +18,7 @@ const port = 8080;
 const server = app.listen(port, listening);
 
 function listening () {
-    console.log("sever running");
+    console.log('sever running');
     console.log(`listening on port: ${port}`);
 }
 
