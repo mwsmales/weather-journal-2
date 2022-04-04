@@ -28,17 +28,42 @@ function generateEntry() {
 
 };
 
-
+// version of chained promises using arrow functions
 async function chainedPromises(zip, feelings, apiKey, geoBaseUrl, baseUrl) {
     getCoords(zip, apiKey, geoBaseUrl) // 1. get the coordinates corresponding to zip
     .then(coords => getCoordWeather(coords.lat, coords.lon, apiKey, baseUrl)) // 2. pass lat and long to get weather data
     .then(weatherData => createEntry(weatherData.dt, weatherData.main.temp, feelings)) // 3. collate the new entry
     .then(newEntry => postData('/addEntry', newEntry)) // 4. pass weather data & user content to server to log
+    .then(() => getData('./getData')) //5. get the updated data object from the server
+    .then(projectData => updateUI(projectData)); // 6. Update page with updated data
+} 
+
+// Alternative version of chained promises without using arrow functions
+/*
+async function chainedPromises(zip, feelings, apiKey, geoBaseUrl, baseUrl) {
+    getCoords(zip, apiKey, geoBaseUrl) // 1. get the coordinates corresponding to zip    
+    
+    .then(function(coords) {
+        return getCoordWeather(coords.lat, coords.lon, apiKey, baseUrl);
+    }) // 2. pass lat and long to get weather data
+    
+    .then(function(weatherData) {
+        return createEntry(weatherData.dt, weatherData.main.temp, feelings);
+    }) // 3. collate the new entry
+    
+    .then(function(newEntry) {
+        return postData('/addEntry', newEntry);
+    }) // 4. pass weather data & user content to server to log
+    
     .then(function() {
         return(getData('./getData'));
     }) //5. get the updated data object from the server
-    .then(projectData => updateUI(projectData)); // 6. Update page with updated data
+    
+    .then(function(projectData) {
+        return updateUI(projectData);
+    }); // 6. Update page with updated data
 } 
+*/
 
 // functions
 async function getCoords(zip, apiKey, geoBaseUrl) { 
