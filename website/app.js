@@ -3,12 +3,6 @@ const apiKey = "373b3c94ddd7cced9679c7abb6cfcdf2&units=imperial";
 const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const geoBaseUrl = "http://api.openweathermap.org/geo/1.0/zip?";
 
-// TODOs
-// sort text box styling
-// convert the unix timestamp from the API to a javascript date object -> complicated bc. it gets sent to the server as a json object?
-// Style the HTML page
-// sort out the arrow functions: understand how parameters are passed from one then statement to the next
-
 // global variables
 let zip = ""; 
 let feelings = "";
@@ -77,7 +71,7 @@ async function getCoordWeather(lat, lon, apiKey, baseUrl) {
 
 
 function createEntry  (unixDate, temp, userContent) {
-    const date = new Date(unixDate * 1000); // convert API unix date
+    const date = new Date(unixDate * 1000); // convert API unix date to JS Date object
     const newEntry = {
         "date": date,
         "temp": temp,
@@ -134,8 +128,12 @@ function updateUI(projectData) {
     const date = projectData['data'][projectDataLength-1]['date'];
     const temp = projectData['data'][projectDataLength-1]['temp'];
     const content = projectData['data'][projectDataLength-1]['content'];
-    console.log(date);
-    document.getElementById('date').innerHTML = `<p><strong>Date:</strong> ${date}</p>`;
+    
+    // convert the date string to a locale-specific string
+    const dateObj = new Date(Date.parse(date))
+    const dateString = dateObj.toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'}) 
+
+    document.getElementById('date').innerHTML = `<p><strong>Date:</strong> ${dateString}</p>`;
     document.getElementById('temp').innerHTML = `<p><strong>Temp:</strong> ${temp}F</p>`;
     document.getElementById('content').innerHTML = `<p><strong>Your feelings:</strong> ${content}</p>`;
 }
