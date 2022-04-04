@@ -4,9 +4,9 @@ const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const geoBaseUrl = "http://api.openweathermap.org/geo/1.0/zip?";
 
 // TODOs
+// sort text box styling
 // convert the unix timestamp from the API to a javascript date object -> complicated bc. it gets sent to the server as a json object?
 // Style the HTML page
-// add additional HTML elements which have previous day's zip, temperature and feelings
 // sort out the arrow functions: understand how parameters are passed from one then statement to the next
 
 // global variables

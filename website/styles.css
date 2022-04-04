@@ -1,8 +1,64 @@
-/*
-#inputHolder {
-    margin: 10px 10px;
+/* FONTS */
+h1 {
+    font-family: sans-serif;
 }
 
+h3 {
+    font-family: sans-serif;
+}
+
+label {
+    font-family: sans-serif;
+}
+
+p {
+    font-family: sans-serif;
+}
+
+button {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* INPUT AREA */
+#inputHolder {
+    margin: 0 10vw;
+}
+
+#inputForm {
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px
+}
+
+/* OUTPUT AREA */
+
+#entryHolder {
+    margin: 0 10vw;
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px
+}
+
+input {
+    padding: 5px;
+}
+
+textarea {
+    padding: 5px;
+    resize: none;
+}
+
+/* FOOTER */
+.footer {
+    font-weight: bold;
+}
+
+
+/* OUTPUT AREA */
+
+
+/*
 p {
     border: 1px solid red;
 }
