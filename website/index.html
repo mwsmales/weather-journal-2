@@ -3,19 +3,24 @@
     <head>
         <meta charset="utf-8"/>
         <meta content="width-device-width, initial-scale=1" name="viewport"/>
-        <link rel="stylesheet". type="css/text", href="./styles.css">
+        <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
+        <header><h1>Michael's Weather Journal</h1></header>
         <div id="inputHolder">
+            <p>Enter your zip code:</p>
             <input placeholder="enter zip code here" id="zip">
-            <textarea id="feelings" placeholder="Enter your feelingas about the weather"></textarea>
-            <button id="generate">Generate</button>
+            <p>How are you feeling today?</p>
+            <textarea id="feelings" placeholder="How are you feeling today"></textarea>
+            <button id="generate">Create entry!</button>
         </div>
         <div id="entryHolder">
-            <div id="date"><p>date goes here</p></div>
-            <div id="temp"><p>temp goes here</p></div>
-            <div id="content"><p>user's feelings go here</p></div>
+            <h2>Latest Entry</h2>
+            <div id="date"><p>No entry yet...</p></div>
+            <div id="temp"></div>
+            <div id="content"></div>
         </div>
+        <footer class="footer"><p>&copy Michael Smales April 2022</p></footer>
     </body>
     <script src="./app.js"></script>
 </html>

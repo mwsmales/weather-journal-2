@@ -4,8 +4,7 @@ const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
 const geoBaseUrl = "http://api.openweathermap.org/geo/1.0/zip?";
 
 // TODOs
-// Dynamically add content to the webpage (from the most recent entry)
-// convert the unix timestamp from the API to a javascript date object
+// convert the unix timestamp from the API to a javascript date object -> complicated bc. it gets sent to the server as a json object?
 // Style the HTML page
 // add additional HTML elements which have previous day's zip, temperature and feelings
 // sort out the arrow functions: understand how parameters are passed from one then statement to the next
@@ -136,7 +135,7 @@ function updateUI(projectData) {
     const temp = projectData['data'][projectDataLength-1]['temp'];
     const content = projectData['data'][projectDataLength-1]['content'];
     console.log(date);
-    document.getElementById('date').innerHTML = `Date: ${date}`;
-    document.getElementById('temp').innerHTML = `Temp: ${temp}`;
-    document.getElementById('content').innerHTML = `Your feelings: ${content}`;
+    document.getElementById('date').innerHTML = `<p><strong>Date:</strong> ${date}</p>`;
+    document.getElementById('temp').innerHTML = `<p><strong>Temp:</strong> ${temp}F</p>`;
+    document.getElementById('content').innerHTML = `<p><strong>Your feelings:</strong> ${content}</p>`;
 }
